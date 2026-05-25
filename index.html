@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galapagos II — Community Guide</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --bg2: #f8f8f6;
+    --bg3: #f1f0ec;
+    --text: #1a1a18;
+    --text2: #5a5a56;
+    --text3: #9a9a94;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --blue-bg: #e6f1fb;
+    --blue-text: #185fa5;
+    --blue-border: rgba(24,95,165,0.25);
+    --warn-bg: #faeeda;
+    --warn-text: #854f0b;
+    --warn-border: rgba(133,79,11,0.25);
+    --green-bg: #eaf3de;
+    --green-text: #3b6d11;
+    --green-border: rgba(59,109,17,0.25);
+    --red-bg: #fcebeb;
+    --red-text: #a32d2d;
+    --radius: 10px;
+    --radius-sm: 7px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252523;
+      --bg3: #2e2e2b;
+      --text: #f0efe8;
+      --text2: #a8a89e;
+      --text3: #6a6a62;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.18);
+      --blue-bg: #042c53;
+      --blue-text: #85b7eb;
+      --blue-border: rgba(133,183,235,0.2);
+      --warn-bg: #412402;
+      --warn-text: #fac775;
+      --warn-border: rgba(250,199,117,0.2);
+      --green-bg: #173404;
+      --green-text: #97c459;
+      --green-border: rgba(151,196,89,0.2);
+      --red-bg: #501313;
+      --red-text: #f09595;
+    }
+  }
+  body { background: var(--bg3); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--text); min-height: 100vh; padding: 1rem; }
+  .container { max-width: 680px; margin: 0 auto; }
+  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; }
+  .header { text-align: center; padding: 2rem 1rem 1.5rem; }
+  .logo { width: 56px; height: 56px; border-radius: 50%; background: var(--blue-bg); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 26px; }
+  h1 { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: var(--text2); }
+  .lang-toggle { display: flex; gap: 6px; justify-content: center; margin-top: 14px; }
+  .lang-btn { padding: 6px 16px; border: 0.5px solid var(--border2); border-radius: 100px; font-size: 13px; cursor: pointer; background: transparent; color: var(--text2); transition: all 0.15s; }
+  .lang-btn.active { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue-text); font-weight: 500; }
+  .disclaimer { background: var(--warn-bg); border: 0.5px solid var(--warn-border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 1rem; display: flex; gap: 10px; align-items: flex-start; }
+  .disclaimer span.icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .disclaimer p { font-size: 12px; color: var(--warn-text); line-height: 1.5; }
+  .contact-bar { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 1rem; font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .contact-bar strong { color: var(--text); }
+  .search-label { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 8px; display: block; }
+  textarea { width: 100%; min-height: 76px; resize: vertical; padding: 10px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; color: var(--text); background: var(--bg2); line-height: 1.5; }
+  textarea:focus { outline: none; border-color: var(--blue-text); }
+  .btn-row { display: flex; justify-content: flex-end; margin-top: 8px; }
+  .send-btn { padding: 0 20px; background: var(--blue-bg); border: 0.5px solid var(--blue-border); border-radius: var(--radius-sm); color: var(--blue-text); font-size: 13px; font-weight: 500; cursor: pointer; height: 40px; display: flex; align-items: center; gap: 6px; transition: opacity 0.15s; }
+  .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip { padding: 5px 12px; border: 0.5px solid var(--border); border-radius: 100px; font-size: 12px; cursor: pointer; color: var(--text2); background: var(--bg2); transition: all 0.15s; }
+  .chip:hover { border-color: var(--border2); color: var(--text); }
+  .loading { display: none; text-align: center; padding: 2rem; color: var(--text2); font-size: 14px; }
+  .loading.on { display: block; }
+  .spinner { width: 24px; height: 24px; border: 2px solid var(--border); border-top-color: var(--blue-text); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .answer-box { display: none; }
+  .answer-box.on { display: block; }
+  .answer-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 0.5px solid var(--border); }
+  .answer-header span.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-text); flex-shrink: 0; }
+  .answer-title { font-size: 13px; font-weight: 500; color: var(--green-text); }
+  .answer-text { font-size: 14px; color: var(--text); line-height: 1.75; white-space: pre-wrap; }
+  .answer-footer { margin-top: 12px; padding-top: 10px; border-top: 0.5px solid var(--border); font-size: 11px; color: var(--text3); }
+  .error-box { display: none; background: var(--red-bg); border: 0.5px solid rgba(163,45,45,0.25); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; color: var(--red-text); margin-bottom: 1rem; }
+  .error-box.on { display: block; }
+  footer { text-align: center; font-size: 11px; color: var(--text3); padding: 1rem 0 2rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="logo">🏘️</div>
+    <h1 id="t-title">Galapagos at Islands at Doral — Phase II</h1>
+    <p class="subtitle" id="t-subtitle">Community Guide · Official Documents Q&A</p>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')" id="btn-en">🇺🇸 English</button>
+      <button class="lang-btn" onclick="setLang('es')" id="btn-es">🇻🇪 Español</button>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <span class="icon">⚠️</span>
+    <p id="t-disclaimer">This guide provides information based solely on official HOA documents. Answers are informational only and do not constitute legal advice. For official decisions, always contact the Board of Directors or Gables Professional Management.</p>
+  </div>
+
+  <div class="contact-bar" id="t-contact">
+    <strong>Gables Professional Management</strong> · (305) 441-0904 · assistantpm@gablesprofessional.com<br>300 Aragon Ave, Suite 370, Coral Gables, FL 33134
+  </div>
+
+  <div class="card">
+    <span class="search-label" id="t-label">Ask a question about the community rules or modification standards:</span>
+    <textarea id="question" placeholder="E.g. What colors can I paint my house?" rows="3"></textarea>
+    <div class="btn-row">
+      <button class="send-btn" id="send-btn" onclick="ask()">
+        <span>➤</span> <span id="t-send">Ask</span>
+      </button>
+    </div>
+    <div class="chips" id="chips-en">
+      <span class="chip" onclick="setQ('What colors can I paint my house?')">Paint colors</span>
+      <span class="chip" onclick="setQ('Can I install a wood fence? What type and height?')">Fences</span>
+      <span class="chip" onclick="setQ('What are the approved window types and colors?')">Windows</span>
+      <span class="chip" onclick="setQ('Can I install a pergola or gazebo?')">Pergolas</span>
+      <span class="chip" onclick="setQ('What roof materials are approved?')">Roof</span>
+      <span class="chip" onclick="setQ('What are the parking rules?')">Parking</span>
+      <span class="chip" onclick="setQ('Can I install solar panels?')">Solar panels</span>
+      <span class="chip" onclick="setQ('What is the process to request an exterior modification?')">Modification process</span>
+      <span class="chip" onclick="setQ('Can I have pets? How many and what size?')">Pets</span>
+      <span class="chip" onclick="setQ('What happens if I make unauthorized exterior changes?')">Violations</span>
+      <span class="chip" onclick="setQ('Can I rent my home?')">Renting</span>
+      <span class="chip" onclick="setQ('What shutters are allowed?')">Shutters</span>
+    </div>
+    <div class="chips" id="chips-es" style="display:none">
+      <span class="chip" onclick="setQ('¿Qué colores puedo usar para pintar mi casa?')">Colores de pintura</span>
+      <span class="chip" onclick="setQ('¿Puedo instalar una cerca? ¿De qué tipo y altura?')">Cercas</span>
+      <span class="chip" onclick="setQ('¿Qué tipos de ventanas están aprobadas?')">Ventanas</span>
+      <span class="chip" onclick="setQ('¿Puedo instalar una pérgola o gazebo?')">Pérgolas</span>
+      <span class="chip" onclick="setQ('¿Qué materiales de techo están aprobados?')">Techo</span>
+      <span class="chip" onclick="setQ('¿Cuáles son las reglas de estacionamiento?')">Estacionamiento</span>
+      <span class="chip" onclick="setQ('¿Puedo instalar paneles solares?')">Paneles solares</span>
+      <span class="chip" onclick="setQ('¿Cuál es el proceso para solicitar una modificación exterior?')">Proceso de solicitud</span>
+      <span class="chip" onclick="setQ('¿Puedo tener mascotas? ¿Cuántas y de qué tamaño?')">Mascotas</span>
+      <span class="chip" onclick="setQ('¿Qué pasa si hago cambios exteriores sin autorización?')">Violaciones</span>
+      <span class="chip" onclick="setQ('¿Puedo alquilar mi casa?')">Alquiler</span>
+      <span class="chip" onclick="setQ('¿Qué shutters están permitidos?')">Shutters</span>
+    </div>
+  </div>
+
+  <div class="loading" id="loading"><div class="spinner"></div><p id="t-loading">Searching the documents...</p></div>
+  <div class="error-box" id="error-box"></div>
+
+  <div class="card answer-box" id="answer-box">
+    <div class="answer-header"><span class="dot"></span><span class="answer-title" id="t-answer-title">Based on official HOA documents</span></div>
+    <div class="answer-text" id="answer-text"></div>
+    <div class="answer-footer" id="t-footer">Informational only — not a binding legal decision. Contact Gables Professional Management at (305) 441-0904 for official approvals.</div>
+  </div>
+
+  <footer id="t-footer-note">Documents: Declaration · First Amendment · By-Laws · Exterior Modification Standards (2024)</footer>
+</div>
+
+<script>
+let lang = 'en';
+const copy = {
+  en: {
+    subtitle: 'Community Guide · Official Documents Q&A',
+    disclaimer: 'This guide provides information based solely on official HOA documents. Answers are informational only and do not constitute legal advice. For official decisions, always contact the Board of Directors or Gables Professional Management.',
+    label: 'Ask a question about the community rules or modification standards:',
+    placeholder: 'E.g. What colors can I paint my house?',
+    send: 'Ask',
+    loading: 'Searching the documents...',
+    answerTitle: 'Based on official HOA documents',
+    footer: 'Informational only — not a binding legal decision. Contact Gables Professional Management at (305) 441-0904 for official approvals.',
+    footerNote: 'Documents: Declaration · First Amendment · By-Laws · Exterior Modification Standards (2024)',
+    error: 'An error occurred. Please try again or call (305) 441-0904.'
+  },
+  es: {
+    subtitle: 'Guía Comunitaria · Consultas sobre Documentos Oficiales',
+    disclaimer: 'Esta guía proporciona información basada exclusivamente en los documentos oficiales de la HOA. Las respuestas son solo informativas y no constituyen asesoramiento legal. Para decisiones oficiales, contacta a la Junta Directiva o a Gables Professional Management.',
+    label: 'Haz una pregunta sobre las reglas o los estándares de modificación:',
+    placeholder: 'Ej: ¿Qué colores puedo usar para pintar mi casa?',
+    send: 'Consultar',
+    loading: 'Buscando en los documentos...',
+    answerTitle: 'Basado en documentos oficiales de la HOA',
+    footer: 'Solo informativo — no es una decisión legal vinculante. Contacta a Gables Professional Management al (305) 441-0904 para aprobaciones oficiales.',
+    footerNote: 'Documentos: Declaración · Primera Enmienda · Estatutos · Estándares de Modificación Exterior (2024)',
+    error: 'Ocurrió un error. Por favor intenta de nuevo o llama al (305) 441-0904.'
+  }
+};
+
+function setLang(l) {
+  lang = l;
+  const t = copy[l];
+  document.getElementById('t-subtitle').textContent = t.subtitle;
+  document.getElementById('t-disclaimer').textContent = t.disclaimer;
+  document.getElementById('t-label').textContent = t.label;
+  document.getElementById('question').placeholder = t.placeholder;
+  document.getElementById('t-send').textContent = t.send;
+  document.getElementById('t-loading').textContent = t.loading;
+  document.getElementById('t-answer-title').textContent = t.answerTitle;
+  document.getElementById('t-footer').textContent = t.footer;
+  document.getElementById('t-footer-note').textContent = t.footerNote;
+  document.getElementById('chips-en').style.display = l === 'en' ? 'flex' : 'none';
+  document.getElementById('chips-es').style.display = l === 'es' ? 'flex' : 'none';
+  document.getElementById('btn-en').classList.toggle('active', l === 'en');
+  document.getElementById('btn-es').classList.toggle('active', l === 'es');
+  document.getElementById('answer-box').classList.remove('on');
+  document.getElementById('error-box').classList.remove('on');
+}
+
+function setQ(q) {
+  document.getElementById('question').value = q;
+  document.getElementById('question').focus();
+}
+
+async function ask() {
+  const q = document.getElementById('question').value.trim();
+  if (!q) return;
+  const btn = document.getElementById('send-btn');
+  const loadingEl = document.getElementById('loading');
+  const answerBox = document.getElementById('answer-box');
+  const errorBox = document.getElementById('error-box');
+  btn.disabled = true;
+  loadingEl.classList.add('on');
+  answerBox.classList.remove('on');
+  errorBox.classList.remove('on');
+  try {
+    const res = await fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: q, lang })
+    });
+    if (!res.ok) throw new Error('error');
+    const data = await res.json();
+    document.getElementById('answer-text').textContent = data.answer || '';
+    answerBox.classList.add('on');
+    answerBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } catch {
+    errorBox.textContent = copy[lang].error;
+    errorBox.classList.add('on');
+  } finally {
+    btn.disabled = false;
+    loadingEl.classList.remove('on');
+  }
+}
+
+document.getElementById('question').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) ask();
+});
+</script>
+</body>
+</html>
