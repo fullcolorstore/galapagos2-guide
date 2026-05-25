@@ -33,7 +33,7 @@ Option 5: Body & Trim: SW 7015 Repose Gray | Optional trim: SW 7016 Mindful Gray
 Option 6: Body & Trim: SW 7029 Agreeable Gray | Optional trim: SW 7030 Anew Gray
 Fascia & Rain Gutters (all options): White SW7005 OR Lodge Brown SW3007 OR Tricorn Black SW6258
 
-PAINTING TIMELINE: Not painted in 10+ years → update within 1 year. Not painted in 5 years → update within 2 years. Painted within last 3 years → update within 3 years.
+PAINTING TIMELINE: Not painted in 10+ years update within 1 year. Not painted in 5 years update within 2 years. Painted within last 3 years update within 3 years.
 
 --- WINDOWS ---
 Approved frame types: Aluminum (white), Black frame, Vinyl (black or white).
@@ -82,7 +82,7 @@ Each home includes two designated driveway spaces. A third space may be requeste
 Vehicles must be parked in garage or driveway. Must not block sidewalk.
 No commercial vehicles, limousines, RVs, boats, trailers, or campers except in garage.
 No vehicles displaying commercial advertising in public view.
-No "for sale" signs on vehicles in public view.
+No for sale signs on vehicles in public view.
 No vehicles over 3/4 ton except during delivery.
 
 --- PAVERS & WALKWAYS ---
@@ -90,7 +90,7 @@ Driveway pavers may only be painted if previously painted. Otherwise clean and s
 Approved paint color (if applicable): Benjamin Moore N448 Carmelita.
 Approved materials: Concrete, Porcelain, Travertine pavers.
 Colors: Neutral palette (white, beige, gray, brown tones).
-SIDE WALKWAYS TO PATIO: Require city permit AND ACC approval. Must match driveway pavers. Corner homes NOT eligible. Models: Isabella, Genovesa, San Cristóbal.
+SIDE WALKWAYS TO PATIO: Require city permit AND ACC approval. Must match driveway pavers. Corner homes NOT eligible. Models: Isabella, Genovesa, San Cristobal.
 
 --- HOUSE NUMBERS ---
 Style: Palm Springs. Size: 6 inches. Color: Black. Must be installed horizontally above garage.
@@ -99,7 +99,7 @@ Must be upgraded when repainting home. Source: modernhousenumbers.com
 --- OUTDOOR STRUCTURES ---
 PERGOLAS & GAZEBOS: Require full documentation (photos, drawings) with ARF. ACC approval required.
 POOLS: Must be within property boundaries. No above-ground pools. All in-ground pools/hot tubs/spas require prior written ACC approval. Pool screens no higher than roof line. No diving boards or slides without ACC approval.
-STORAGE SHEDS: Allowed only in rear yard. Maximum size: 120" W x 94" D x 91" H. Approval required.
+STORAGE SHEDS: Allowed only in rear yard. Maximum size: 120 inches W x 94 inches D x 91 inches H. Approval required.
 SOLAR PANELS: Must comply with Florida law and receive ACC approval.
 
 --- ROOF MATERIALS (APPROVED OPTIONS) ---
@@ -120,7 +120,7 @@ Transfers by sale, lease, or gift subject to Association approval. 30 days to ap
 --- ANIMALS / PETS ---
 Maximum TWO (2) domestic pets, each weighing 30 lbs or less per Home.
 Pets must be walked on a leash. No commercial animal raising.
-Pets must defecate only in designated pet areas or owner's property.
+Pets must defecate only in designated pet areas or owners property.
 Pets may be removed within 48 hours if declared nuisance by Board. Seeing-eye dogs are exempt.
 
 --- VIOLATIONS & FINES ---
@@ -155,22 +155,30 @@ CRITICAL RULES:
 6. Answer in English.
 
 OFFICIAL HOA DOCUMENTS:
-${DOC_TEXT}`;
+` + DOC_TEXT;
 
-const SYSTEM_ES = `Eres un asistente comunitario para la HOA Galapagos at Islands at Doral Phase II. Respondes preguntas ESTRICTAMENTE y ÚNICAMENTE basándote en los documentos oficiales de la HOA proporcionados a continuación.
+const SYSTEM_ES = `Eres un asistente comunitario para la HOA Galapagos at Islands at Doral Phase II. Respondes preguntas ESTRICTAMENTE y UNICAMENTE basandote en los documentos oficiales de la HOA proporcionados a continuacion.
 
-REGLAS CRÍTICAS:
-1. NUNCA inventes, asumas ni proporciones información que no esté explícitamente indicada en los documentos.
-2. Si la respuesta no se encuentra en los documentos, di claramente: "No encontré información específica sobre esto en los documentos oficiales. Por favor, contacta a Gables Professional Management al (305) 441-0904."
-3. Siempre cita la sección o documento relevante cuando sea posible.
-4. Mantén las respuestas claras, prácticas y fáciles de entender para los residentes.
-5. Siempre recuerda que esto es solo informativo y que los residentes deben obtener aprobación escrita del ACC antes de comenzar cualquier trabajo.
-6. Responde en español.
+REGLAS CRITICAS:
+1. NUNCA inventes, asumas ni proporciones informacion que no este explicitamente indicada en los documentos.
+2. Si la respuesta no se encuentra en los documentos, di claramente: "No encontre informacion especifica sobre esto en los documentos oficiales. Por favor, contacta a Gables Professional Management al (305) 441-0904."
+3. Siempre cita la seccion o documento relevante cuando sea posible.
+4. Manten las respuestas claras, practicas y faciles de entender para los residentes.
+5. Siempre recuerda que esto es solo informativo y que los residentes deben obtener aprobacion escrita del ACC antes de comenzar cualquier trabajo.
+6. Responde en espanol.
 
 DOCUMENTOS OFICIALES DE LA HOA:
-${DOC_TEXT}`;
+` + DOC_TEXT;
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -195,7 +203,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 1000,
         system: lang === 'es' ? SYSTEM_ES : SYSTEM_EN,
         messages: [{ role: 'user', content: question.trim() }]
@@ -209,11 +217,11 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-    const answer = data.content?.[0]?.text || '';
-    return res.status(200).json({ answer });
+    const answer = data.content && data.content[0] ? data.content[0].text : '';
+    return res.status(200).json({ answer: answer });
 
   } catch (error) {
     console.error('Handler error:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
-}
+};
