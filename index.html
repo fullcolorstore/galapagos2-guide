@@ -143,13 +143,19 @@
     filter: drop-shadow(0 4px 14px rgba(0,0,0,0.45));
   }
   .w-title {
-    font-size: 26px;
+    font-size: 42px;
     font-weight: 700;
     color: #ffffff;
     line-height: 1.2;
     margin-bottom: 8px;
     text-shadow: 0 2px 18px rgba(0,0,0,0.65);
     letter-spacing: -0.3px;
+  }
+  .w-title-sub {
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    opacity: 0.88;
   }
   .w-sub {
     font-size: 13px;
@@ -246,10 +252,8 @@
   <div class="w-bg"></div>
   <div class="w-overlay"></div>
   <div class="w-content">
-    <div class="w-icon">🏘️</div>
-    <h2 class="w-title">Galapagos II<br>at The Islands at Doral</h2>
+    <h2 class="w-title">Galapagos II<br><span class="w-title-sub">at The Islands at Doral</span></h2>
     <p class="w-sub">Community Guide &middot; HOA Official Documents Q&amp;A</p>
-    <p class="w-lang-label">Select language / Selecciona idioma / Escolha o idioma</p>
     <div class="w-langs">
       <button class="w-lang active" onclick="wSelectLang('en')" id="wbtn-en">🇺🇸 English</button>
       <button class="w-lang" onclick="wSelectLang('es')" id="wbtn-es">🇪🇸 Español</button>
