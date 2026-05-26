@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,6 +53,7 @@
       --red-text: #f09595;
     }
   }
+
   body { background: var(--bg3); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--text); min-height: 100vh; padding: 1rem; }
   .container { max-width: 680px; margin: 0 auto; }
   .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; }
@@ -59,7 +61,7 @@
   .logo { width: 56px; height: 56px; border-radius: 50%; background: var(--blue-bg); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 26px; }
   h1 { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
   .subtitle { font-size: 13px; color: var(--text2); }
-  .lang-toggle { display: flex; gap: 6px; justify-content: center; margin-top: 14px; }
+  .lang-toggle { display: flex; gap: 6px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
   .lang-btn { padding: 6px 16px; border: 0.5px solid var(--border2); border-radius: 100px; font-size: 13px; cursor: pointer; background: transparent; color: var(--text2); transition: all 0.15s; }
   .lang-btn.active { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue-text); font-weight: 500; }
   .disclaimer { background: var(--warn-bg); border: 0.5px solid var(--warn-border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 1rem; display: flex; gap: 10px; align-items: flex-start; }
@@ -90,9 +92,177 @@
   .error-box { display: none; background: var(--red-bg); border: 0.5px solid rgba(163,45,45,0.25); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; color: var(--red-text); margin-bottom: 1rem; }
   .error-box.on { display: block; }
   footer { text-align: center; font-size: 11px; color: var(--text3); padding: 1rem 0 2rem; }
+
+  /* ─────────────────────────────────────────
+     WELCOME SCREEN
+  ───────────────────────────────────────── */
+  #welcome {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+  }
+  #welcome.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .w-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('IMG_1112.jpeg');
+    background-size: cover;
+    background-position: center 25%;
+  }
+  .w-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.28) 0%,
+      rgba(0,0,0,0.52) 45%,
+      rgba(0,0,0,0.74) 100%
+    );
+  }
+  .w-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    max-width: 420px;
+    width: 100%;
+  }
+  .w-icon {
+    font-size: 54px;
+    margin-bottom: 0.6rem;
+    filter: drop-shadow(0 4px 14px rgba(0,0,0,0.45));
+  }
+  .w-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.65);
+    letter-spacing: -0.3px;
+  }
+  .w-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 2rem;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+    line-height: 1.55;
+  }
+  .w-lang-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 12px;
+  }
+  .w-langs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .w-lang {
+    padding: 10px 20px;
+    border: 1.5px solid rgba(255,255,255,0.32);
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .w-lang:hover {
+    border-color: rgba(255,255,255,0.65);
+    color: #ffffff;
+    background: rgba(255,255,255,0.2);
+  }
+  .w-lang.active {
+    border-color: #ffffff;
+    color: #1a1a18;
+    background: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  }
+  .w-enter {
+    width: 100%;
+    padding: 15px 32px;
+    background: rgba(24,95,165,0.82);
+    border: 1.5px solid rgba(133,183,235,0.45);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.22s;
+    letter-spacing: 0.02em;
+    margin-top: 0.25rem;
+  }
+  .w-enter:hover {
+    background: rgba(24,95,165,1);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.38);
+  }
+  .w-enter:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+  .w-bottom {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255,255,255,0.36);
+    letter-spacing: 0.04em;
+  }
 </style>
 </head>
 <body>
+
+<!-- ─────────────────────────────────────────
+     WELCOME SCREEN
+     NOTE: Upload IMG_1112.jpeg to the root of
+     your GitHub repo (same folder as index.html)
+───────────────────────────────────────── -->
+<div id="welcome">
+  <div class="w-bg"></div>
+  <div class="w-overlay"></div>
+  <div class="w-content">
+    <div class="w-icon">🏘️</div>
+    <h2 class="w-title">Galapagos II<br>at The Islands at Doral</h2>
+    <p class="w-sub">Community Guide &middot; HOA Official Documents Q&amp;A</p>
+    <p class="w-lang-label">Select language / Selecciona idioma / Escolha o idioma</p>
+    <div class="w-langs">
+      <button class="w-lang active" onclick="wSelectLang('en')" id="wbtn-en">🇺🇸 English</button>
+      <button class="w-lang" onclick="wSelectLang('es')" id="wbtn-es">🇪🇸 Español</button>
+      <button class="w-lang" onclick="wSelectLang('pt')" id="wbtn-pt">🇧🇷 Português</button>
+    </div>
+    <button class="w-enter" id="w-enter-btn" onclick="enterApp()">Enter Community Guide →</button>
+  </div>
+  <div class="w-bottom">Doral, Florida &middot; Phase II</div>
+</div>
+
+<!-- ─────────────────────────────────────────
+     MAIN APP
+───────────────────────────────────────── -->
 <div class="container">
 
   <div class="header">
@@ -100,8 +270,9 @@
     <h1 id="t-title">Galapagos at Islands at Doral — Phase II</h1>
     <p class="subtitle" id="t-subtitle">Community Guide · Official Documents Q&A</p>
     <div class="lang-toggle">
-      <button class="lang-btn active" onclick="setLang('en')" id="btn-en"> English</button>
-      <button class="lang-btn" onclick="setLang('es')" id="btn-es"> Español</button>
+      <button class="lang-btn active" onclick="setLang('en')" id="btn-en">🇺🇸 English</button>
+      <button class="lang-btn" onclick="setLang('es')" id="btn-es">🇪🇸 Español</button>
+      <button class="lang-btn" onclick="setLang('pt')" id="btn-pt">🇧🇷 Português</button>
     </div>
   </div>
 
@@ -122,6 +293,8 @@
         <span>➤</span> <span id="t-send">Ask</span>
       </button>
     </div>
+
+    <!-- EN chips -->
     <div class="chips" id="chips-en">
       <span class="chip" onclick="setQ('What colors can I paint my house?')">Paint colors</span>
       <span class="chip" onclick="setQ('Can I install a wood fence? What type and height?')">Fences</span>
@@ -136,6 +309,8 @@
       <span class="chip" onclick="setQ('Can I rent my home?')">Renting</span>
       <span class="chip" onclick="setQ('What shutters are allowed?')">Shutters</span>
     </div>
+
+    <!-- ES chips -->
     <div class="chips" id="chips-es" style="display:none">
       <span class="chip" onclick="setQ('¿Qué colores puedo usar para pintar mi casa?')">Colores de pintura</span>
       <span class="chip" onclick="setQ('¿Puedo instalar una cerca? ¿De qué tipo y altura?')">Cercas</span>
@@ -149,6 +324,22 @@
       <span class="chip" onclick="setQ('¿Qué pasa si hago cambios exteriores sin autorización?')">Violaciones</span>
       <span class="chip" onclick="setQ('¿Puedo alquilar mi casa?')">Alquiler</span>
       <span class="chip" onclick="setQ('¿Qué shutters están permitidos?')">Shutters</span>
+    </div>
+
+    <!-- PT chips -->
+    <div class="chips" id="chips-pt" style="display:none">
+      <span class="chip" onclick="setQ('Que cores posso usar para pintar minha casa?')">Cores da tinta</span>
+      <span class="chip" onclick="setQ('Posso instalar uma cerca? Que tipo e altura?')">Cercas</span>
+      <span class="chip" onclick="setQ('Que tipos de janelas são aprovadas?')">Janelas</span>
+      <span class="chip" onclick="setQ('Posso instalar uma pérgola ou gazebo?')">Pérgolas</span>
+      <span class="chip" onclick="setQ('Que materiais de telhado são aprovados?')">Telhado</span>
+      <span class="chip" onclick="setQ('Quais são as regras de estacionamento?')">Estacionamento</span>
+      <span class="chip" onclick="setQ('Posso instalar painéis solares?')">Painéis solares</span>
+      <span class="chip" onclick="setQ('Qual é o processo para solicitar uma modificação exterior?')">Solicitação</span>
+      <span class="chip" onclick="setQ('Posso ter animais de estimação? Quantos e de que tamanho?')">Animais</span>
+      <span class="chip" onclick="setQ('O que acontece se eu fizer alterações externas sem autorização?')">Violações</span>
+      <span class="chip" onclick="setQ('Posso alugar minha casa?')">Aluguel</span>
+      <span class="chip" onclick="setQ('Que persianas são permitidas?')">Persianas</span>
     </div>
   </div>
 
@@ -166,6 +357,7 @@
 
 <script>
 let lang = 'en';
+
 const copy = {
   en: {
     subtitle: 'Community Guide · Official Documents Q&A',
@@ -177,7 +369,8 @@ const copy = {
     answerTitle: 'Based on official HOA documents',
     footer: 'Informational only — not a binding legal decision. Contact Gables Professional Management at (305) 441-0904 for official approvals.',
     footerNote: 'Documents: Declaration · First Amendment · By-Laws · Exterior Modification Standards (2024)',
-    error: 'An error occurred. Please try again or call (305) 441-0904.'
+    error: 'An error occurred. Please try again or call (305) 441-0904.',
+    enterBtn: 'Enter Community Guide →'
   },
   es: {
     subtitle: 'Guía Comunitaria · Consultas sobre Documentos Oficiales',
@@ -189,26 +382,65 @@ const copy = {
     answerTitle: 'Basado en documentos oficiales de la HOA',
     footer: 'Solo informativo — no es una decisión legal vinculante. Contacta a Gables Professional Management al (305) 441-0904 para aprobaciones oficiales.',
     footerNote: 'Documentos: Declaración · Primera Enmienda · Estatutos · Estándares de Modificación Exterior (2024)',
-    error: 'Ocurrió un error. Por favor intenta de nuevo o llama al (305) 441-0904.'
+    error: 'Ocurrió un error. Por favor intenta de nuevo o llama al (305) 441-0904.',
+    enterBtn: 'Entrar a la Guía →'
+  },
+  pt: {
+    subtitle: 'Guia Comunitário · Consultas sobre Documentos Oficiais',
+    disclaimer: 'Este guia fornece informações baseadas exclusivamente em documentos oficiais da HOA. As respostas são apenas informativas e não constituem aconselhamento jurídico. Para decisões oficiais, entre em contato com o Conselho de Diretores ou a Gables Professional Management.',
+    label: 'Faça uma pergunta sobre as regras da comunidade ou padrões de modificação:',
+    placeholder: 'Ex: Que cores posso usar para pintar minha casa?',
+    send: 'Perguntar',
+    loading: 'Pesquisando nos documentos...',
+    answerTitle: 'Com base em documentos oficiais da HOA',
+    footer: 'Apenas informativo — não é uma decisão legal vinculante. Entre em contato com a Gables Professional Management pelo (305) 441-0904 para aprovações oficiais.',
+    footerNote: 'Documentos: Declaração · Primeira Emenda · Estatuto · Padrões de Modificação Exterior (2024)',
+    error: 'Ocorreu um erro. Por favor, tente novamente ou ligue para (305) 441-0904.',
+    enterBtn: 'Entrar no Guia →'
   }
 };
 
+// ── WELCOME SCREEN LOGIC ──────────────────
+let welcomeLang = 'en';
+
+function wSelectLang(l) {
+  welcomeLang = l;
+  document.querySelectorAll('.w-lang').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('wbtn-' + l).classList.add('active');
+  document.getElementById('w-enter-btn').textContent = copy[l].enterBtn;
+}
+
+function enterApp() {
+  setLang(welcomeLang);
+  document.getElementById('welcome').classList.add('fade-out');
+  setTimeout(() => {
+    const w = document.getElementById('welcome');
+    if (w) w.remove();
+  }, 750);
+}
+
+// ── MAIN APP LANGUAGE LOGIC ───────────────
 function setLang(l) {
   lang = l;
   const t = copy[l];
-  document.getElementById('t-subtitle').textContent = t.subtitle;
-  document.getElementById('t-disclaimer').textContent = t.disclaimer;
-  document.getElementById('t-label').textContent = t.label;
-  document.getElementById('question').placeholder = t.placeholder;
-  document.getElementById('t-send').textContent = t.send;
-  document.getElementById('t-loading').textContent = t.loading;
+  document.getElementById('t-subtitle').textContent    = t.subtitle;
+  document.getElementById('t-disclaimer').textContent  = t.disclaimer;
+  document.getElementById('t-label').textContent       = t.label;
+  document.getElementById('question').placeholder      = t.placeholder;
+  document.getElementById('t-send').textContent        = t.send;
+  document.getElementById('t-loading').textContent     = t.loading;
   document.getElementById('t-answer-title').textContent = t.answerTitle;
-  document.getElementById('t-footer').textContent = t.footer;
+  document.getElementById('t-footer').textContent      = t.footer;
   document.getElementById('t-footer-note').textContent = t.footerNote;
+
   document.getElementById('chips-en').style.display = l === 'en' ? 'flex' : 'none';
   document.getElementById('chips-es').style.display = l === 'es' ? 'flex' : 'none';
+  document.getElementById('chips-pt').style.display = l === 'pt' ? 'flex' : 'none';
+
   document.getElementById('btn-en').classList.toggle('active', l === 'en');
   document.getElementById('btn-es').classList.toggle('active', l === 'es');
+  document.getElementById('btn-pt').classList.toggle('active', l === 'pt');
+
   document.getElementById('answer-box').classList.remove('on');
   document.getElementById('error-box').classList.remove('on');
 }
@@ -221,10 +453,10 @@ function setQ(q) {
 async function ask() {
   const q = document.getElementById('question').value.trim();
   if (!q) return;
-  const btn = document.getElementById('send-btn');
+  const btn       = document.getElementById('send-btn');
   const loadingEl = document.getElementById('loading');
   const answerBox = document.getElementById('answer-box');
-  const errorBox = document.getElementById('error-box');
+  const errorBox  = document.getElementById('error-box');
   btn.disabled = true;
   loadingEl.classList.add('on');
   answerBox.classList.remove('on');
