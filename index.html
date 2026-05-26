@@ -93,6 +93,15 @@
   .error-box.on { display: block; }
   footer { text-align: center; font-size: 11px; color: var(--text3); padding: 1rem 0 2rem; }
 
+  /* ── DOCS SECTION ── */
+  .docs-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+  .doc-item { display: flex; align-items: center; gap: 12px; padding: 13px 14px; border: 0.5px solid var(--border); border-radius: var(--radius-sm); text-decoration: none; color: var(--text); background: var(--bg2); transition: all 0.18s; }
+  .doc-item:hover { border-color: var(--blue-border); background: var(--blue-bg); color: var(--blue-text); }
+  .doc-icon { font-size: 20px; flex-shrink: 0; }
+  .doc-name { flex: 1; font-size: 13px; font-weight: 500; line-height: 1.3; }
+  .doc-dl { font-size: 15px; color: var(--text3); flex-shrink: 0; transition: color 0.18s; }
+  .doc-item:hover .doc-dl { color: var(--blue-text); }
+
   /* ─────────────────────────────────────────
      WELCOME SCREEN
   ───────────────────────────────────────── */
@@ -290,6 +299,32 @@
   </div>
 
   <div class="card">
+    <span class="search-label" id="t-docs-label">Download Official Documents:</span>
+    <div class="docs-list">
+      <a class="doc-item" href="/ARCHITECTURAL_REQUEST.pdf" target="_blank">
+        <span class="doc-icon">🏗️</span>
+        <span class="doc-name" id="doc1-name">Architectural Modification Request</span>
+        <span class="doc-dl">⬇ PDF</span>
+      </a>
+      <a class="doc-item" href="/APPROVED_EXT_MODIFICATIONS.pdf" target="_blank">
+        <span class="doc-icon">✅</span>
+        <span class="doc-name" id="doc2-name">Approved Exterior Modifications</span>
+        <span class="doc-dl">⬇ PDF</span>
+      </a>
+      <a class="doc-item" href="/REQUEST_FORM_FOR_COLORS.pdf" target="_blank">
+        <span class="doc-icon">🎨</span>
+        <span class="doc-name" id="doc3-name">Color Change Application</span>
+        <span class="doc-dl">⬇ PDF</span>
+      </a>
+      <a class="doc-item" href="/APPROVES_HOUSE_NUMBERS.pdf" target="_blank">
+        <span class="doc-icon">🔢</span>
+        <span class="doc-name" id="doc4-name">House Numbers Application</span>
+        <span class="doc-dl">⬇ PDF</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
     <span class="search-label" id="t-label">Ask a question about the community rules or modification standards:</span>
     <textarea id="question" placeholder="E.g. What colors can I paint my house?" rows="3"></textarea>
     <div class="btn-row">
@@ -374,7 +409,12 @@ const copy = {
     footer: 'Informational only — not a binding legal decision. Contact Gables Professional Management at (305) 441-0904 for official approvals.',
     footerNote: 'Documents: Declaration · First Amendment · By-Laws · Exterior Modification Standards (2024)',
     error: 'An error occurred. Please try again or call (305) 441-0904.',
-    enterBtn: 'Enter Community Guide →'
+    enterBtn: 'Enter Community Guide →',
+    docsLabel: 'Download Official Documents:',
+    doc1: 'Architectural Modification Request',
+    doc2: 'Approved Exterior Modifications',
+    doc3: 'Color Change Application',
+    doc4: 'House Numbers Application'
   },
   es: {
     subtitle: 'Guía Comunitaria · Consultas sobre Documentos Oficiales',
@@ -387,7 +427,12 @@ const copy = {
     footer: 'Solo informativo — no es una decisión legal vinculante. Contacta a Gables Professional Management al (305) 441-0904 para aprobaciones oficiales.',
     footerNote: 'Documentos: Declaración · Primera Enmienda · Estatutos · Estándares de Modificación Exterior (2024)',
     error: 'Ocurrió un error. Por favor intenta de nuevo o llama al (305) 441-0904.',
-    enterBtn: 'Entrar a la Guía →'
+    enterBtn: 'Entrar a la Guía →',
+    docsLabel: 'Descargar Documentos Oficiales:',
+    doc1: 'Solicitud de Modificación Arquitectónica',
+    doc2: 'Modificaciones Exteriores Aprobadas',
+    doc3: 'Solicitud de Cambio de Color',
+    doc4: 'Solicitud de Números de Casa'
   },
   pt: {
     subtitle: 'Guia Comunitário · Consultas sobre Documentos Oficiais',
@@ -400,7 +445,12 @@ const copy = {
     footer: 'Apenas informativo — não é uma decisão legal vinculante. Entre em contato com a Gables Professional Management pelo (305) 441-0904 para aprovações oficiais.',
     footerNote: 'Documentos: Declaração · Primeira Emenda · Estatuto · Padrões de Modificação Exterior (2024)',
     error: 'Ocorreu um erro. Por favor, tente novamente ou ligue para (305) 441-0904.',
-    enterBtn: 'Entrar no Guia →'
+    enterBtn: 'Entrar no Guia →',
+    docsLabel: 'Baixar Documentos Oficiais:',
+    doc1: 'Solicitação de Modificação Arquitetônica',
+    doc2: 'Modificações Exteriores Aprovadas',
+    doc3: 'Solicitação de Mudança de Cor',
+    doc4: 'Solicitação de Números de Casa'
   }
 };
 
@@ -436,6 +486,12 @@ function setLang(l) {
   document.getElementById('t-answer-title').textContent = t.answerTitle;
   document.getElementById('t-footer').textContent      = t.footer;
   document.getElementById('t-footer-note').textContent = t.footerNote;
+
+  document.getElementById('t-docs-label').textContent = t.docsLabel;
+  document.getElementById('doc1-name').textContent    = t.doc1;
+  document.getElementById('doc2-name').textContent    = t.doc2;
+  document.getElementById('doc3-name').textContent    = t.doc3;
+  document.getElementById('doc4-name').textContent    = t.doc4;
 
   document.getElementById('chips-en').style.display = l === 'en' ? 'flex' : 'none';
   document.getElementById('chips-es').style.display = l === 'es' ? 'flex' : 'none';
